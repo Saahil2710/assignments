@@ -4,7 +4,21 @@
 */
 
 function isPalindrome(str) {
-  return true;
+  str = str.toLowerCase();
+
+  let left = 0;
+  let right = str.length - 1;
+
+  while (left < right) {
+    if (str[left] !== str[right]) {
+    }
+    left++;
+    right--;
+  }
+
 }
 
-module.exports = isPalindrome;
+// Example usage:
+const word = "racecar";
+const isPalindromeResult = isPalindrome(word);
+console.log(isPalindromeResult); 
