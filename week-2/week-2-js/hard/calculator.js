@@ -16,6 +16,31 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
 
-module.exports = Calculator;
+function calculateTotalSpentByCategory(transactions) {
+
+    const categoryTotals = {};//  create an empty array to store the total amount spent in each category.
+
+    transactions.forEach(transaction => {
+        const {category, price} = transaction;
+        if (categoryTotals[category]) {
+            categoryTotals[category] += price;
+        } else {
+            categoryTotals[category] = price;
+        }
+    });
+
+    return Object.keys(categoryTotals).map(category => ({
+        category: category,
+        totalSpent: categoryTotals[category]
+    }));
+}
+    const transactions = [
+        { id: 1, timestamp: 1656076800000, price: 10, category: 'Food', itemName: 'Pizza' },
+        { id: 2, timestamp: 1656076800000, price: 20, category: 'Food', itemName: 'Burger' },
+        { id: 3, timestamp: 1656076800000, price: 15, category: 'Transport', itemName: 'Bus Ticket' }
+    ];
+
+    console.log(calculateTotalSpentByCategory(transactions));
+
+
