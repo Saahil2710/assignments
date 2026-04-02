@@ -1,0 +1,131 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="app.css">
+<style>
+    
+
+#Question{
+    margin-left: 500px;
+    margin-top: 150px;
+    background-color:gray;
+    max-height: 300px;
+    width:  350px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#options{
+    height: 100px;
+    width: 300px;
+    margin-bottom:50px ;
+}
+
+button{
+    background-color:black;
+    color:white;
+    border-radius: 10px;
+    border:none;
+    height: 50px;
+    width:  350px;
+}
+</style>
+</head>
+
+<body>
+    <script type="module" src="app.js"></script>
+
+    <div id="question">
+
+        <h2> </h2>
+
+        <div id="options">
+            <label for=""><input type="radio" name="option" value="a"> <spane id="a_text"> </label><br>
+            <label for=""><input type="radio" name="option" value="b"> <spane id="b_text"> </label><br>
+            <label for=""><input type="radio" name="option" value="c"> <spane id="c_text"> </label><br>
+            <label for=""><input type="radio" name="option" value="d"> <spane id="d_text"> </label><br>
+        </div>
+
+        <button id="SubmitBtn">Submit</button>
+        <button id="ReloadBtn" >Reload</button>
+    
+    </div>
+    <script>
+        import { quizData } from "./data.js";
+
+// define variables fectch throw ids
+const h2 = document.querySelector('h2');
+const options = document.getElementById('options')
+const SubmitBtn = document.getElementById('SubmitBtn'); 
+const ReloadBtn = document.getElementById('ReloadBtn');
+
+const a_text = document.getElementById('a_text')
+const b_text = document.getElementById('b_text')
+const c_text = document.getElementById('c_text')
+const d_text = document.getElementById('d_text')
+
+// how to load question make index value
+let currentIndex = 0
+let score = 0
+// load the question 
+function loadQuestion(){
+    const current = quizData[currentIndex];
+    // clear any previous selction 
+    document.querySelectorAll('input[name="option"]').forEach(r => r.checked = false);
+
+    h2.innerText = current.question;
+    a_text.innerText = current.a;
+    b_text.innerText = current.b;
+    c_text.innerText = current.c;
+    d_text.innerText = current.d;
+}
+
+
+// when you submit the answer
+SubmitBtn.addEventListener('click',()=>{
+    // check u select a answer or not 
+    const selected = document.querySelector('input[name="option"]:checked');
+    
+    if(!selected){
+        alert("Please selected an answe!")
+        return;
+    }
+
+    if(selected.value === quizData[currentIndex].correct){
+        score++;
+    }
+
+    currentIndex++;
+
+    if(currentIndex < quizData.length){
+        loadQuestion();
+    }else{
+        h2.innerText  = `Quiz complete! ${score}/${quizData.length}`;
+        options.style.display = 'none'
+        SubmitBtn.style.display = 'none'
+        ReloadBtn.style.display = 'inline-block'
+    }
+
+})
+
+
+// reload the page
+ReloadBtn.addEventListener('click',()=>{
+    currentIndex = 0;
+    score = 0;
+    options.style.display = 'block'
+    SubmitBtn.style.display = 'inline-block'
+    ReloadBtn.style.display = 'none'
+    loadQuestion();
+})
+
+
+
+
+loadQuestion();
+    </script>
+
+</body>
+</html>
